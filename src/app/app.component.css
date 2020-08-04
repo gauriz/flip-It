@@ -10,12 +10,12 @@
 
 .grid-container {
     display: grid;
-    background-color: #BA2C73 !important;
+    background-color: #191D32 !important;
 }
 
 .grid-item {
     text-align: center;
-    border: 2px solid #191D32;
+    border: 2px solid #28AFB0;
     height: 70px;
 }
 
@@ -25,4 +25,8 @@
 
 mat-icon {
     margin-top: 21px;
+}
+
+.row {
+    margin-right: -16px !important;
 }

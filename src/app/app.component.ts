@@ -20,7 +20,7 @@ export interface DataUser {
       'deckAnimation', [
       transition(':enter', [
         style({ transform: 'translateY(100%)', opacity: 0 }),
-        animate('200ms', style({ transform: 'translateY(0)', opacity: 1 }))
+        animate('300ms', style({ transform: 'translateY(0)', opacity: 1 }))
       ]),
       transition(':leave', [
         style({ transform: 'translateX(0)', opacity: 1 }),
@@ -85,16 +85,18 @@ export class AppComponent implements OnInit {
   }
 
   hideAll(): void {
-    this.items.map(item => item.show = false);
+    console.log('start');
+    setTimeout(() => {
+      this.items.map(item => item.show = false);
+      console.log('emd');
+    }, 1000);
   }
 
   deckGenerator(): void {
     const deckArray = Array.from(Array(this.totalDeck), (_, i) => i + 1);
     const repeat = (a, n) => n ? a.concat(repeat(a, --n)) : [];
     this.items = this.shuffle(repeat(deckArray, 2)).map(item => ({ show: true, value: item }));
-    setTimeout(() => {
-      this.hideAll();
-    }, 1000);
+    this.hideAll();
   }
 
   shuffle(array): number[] {
@@ -135,14 +137,21 @@ export class AppComponent implements OnInit {
 
   checkCompletionandRedeck() {
     if (this.openCount === this.totalDeck) {
-      setTimeout(() => {
-        this.hideAll();
-        delete this.clickedIndex;
-        delete this.itemClicked;
-        this.openCount = 0;
-        this.deckGenerator();
-      }, 1000);
+      this.hideAll();
+      delete this.clickedIndex;
+      delete this.itemClicked;
+      this.openCount = 0;
+      this.deckGeneratorDelayed();
     }
+  }
+
+  deckGeneratorDelayed(): void {
+    setTimeout(() => {
+      const deckArray = Array.from(Array(this.totalDeck), (_, i) => i + 1);
+      const repeat = (a, n) => n ? a.concat(repeat(a, --n)) : [];
+      this.items = this.shuffle(repeat(deckArray, 2)).map(item => ({ show: true, value: item }));
+      this.hideAll();
+    }, 1000);
   }
 
   hide(): void {
