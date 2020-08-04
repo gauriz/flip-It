@@ -1,13 +1,14 @@
 <nav class="navbar fixed-top navbar-dark" style="background-color: #191D32;">
     <a class="navbar-brand" href="#!">FLIP IT </a>
-    <button class='btn btn-info '> {{points}} </button>
+    <div> <button class='btn btn-info ' style="margin-right: 20px;"> {{points}} </button>
+        <button class='btn btn-danger '> {{failureCount}} </button> </div>
 </nav>
-<div class="container grid-container top" style="width: 210px;height: 140px;
-margin: auto;position: absolute; top: 0; left: 0; bottom: 0; 
-right: 0;">
+<div class="container grid-container top" [style.width]='(80 * columns) + "px"' [style.height]='(80 * rows) + "px"'>
     <div class="row">
-        <div id='gridItem' *ngFor='let item of items; let index= index;' [class]="'col-' + (12/totalDeck) + ' grid-item col-xl-' + (12/totalDeck)" (click)='checkClick(item, index)'>
-            <mat-icon [svgIcon]='"img" + item.value' *ngIf='item.show' [@deckAnimation]> </mat-icon>
+        <div id='gridItem' *ngFor='let item of items; let index= index;' [class]="'col-' + (12/columns) + ' grid-item col-xl-' + (12/columns)" (click)='checkClick(item, index)'>
+            <button mat-icon-button *ngIf='item.show' [@deckAnimation] style="margin-top: 19px;"> 
+                <mat-icon [svgIcon]='"img" + item.value' class="y-icon"></mat-icon>
+              </button>
         </div>
     </div>
 </div>
@@ -27,7 +28,7 @@ right: 0;">
             </div>
             <div class="flex-container" *ngIf='buttonText !== "Start"'>
 
-                <div style="flex-grow: 1"><label>   {{ content }} </label> <br> <label *ngIf='name != ""'> lastHighScore   </label> </div>
+                <div style="flex-grow: 1"><label>   {{ content }} </label> <br> <label *ngIf='name != ""'>  Good luck next time!  </label> </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">

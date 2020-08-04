@@ -11,12 +11,18 @@
 .grid-container {
     display: grid;
     background-color: #191D32 !important;
+    margin: auto !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
 }
 
 .grid-item {
     text-align: center;
     border: 2px solid #28AFB0;
-    height: 70px;
+    height: 80px;
 }
 
 .top {
@@ -24,9 +30,17 @@
 }
 
 mat-icon {
-    margin-top: 21px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    height: 100%;
+    width: 100%;
 }
 
 .row {
     margin-right: -16px !important;
+}
+
+::ng-deep .y-icon {
+    fill: yellowgreen !important;
 }

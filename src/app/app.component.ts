@@ -37,21 +37,29 @@ export class AppComponent implements OnInit {
   title = 'FLIP IT';
   items;
   itemClicked;
-  totalDeck = 3;
+  columns = 2;
+  rows = 2;
   showModal = false;
   content = '';
   buttonText = 'Start';
   name = '';
-  // lastHighScore = 0;
-  // userId: any;
+  failureCount = 10;
+  lastHighScore = 0;
+  userId: any;
   showTopScores = false;
   showCat = true;
-  cards = ['https://cdn.worldvectorlogo.com/logos/emoticon.svg',
-    'https://cdn.worldvectorlogo.com/logos/facebook-angry.svg',
-    'https://cdn.worldvectorlogo.com/logos/facebook-wow.svg',
-    'https://cdn.worldvectorlogo.com/logos/facebook-haha.svg',
-    'https://cdn.worldvectorlogo.com/logos/facebook-love.svg',
-    'https://cdn.worldvectorlogo.com/logos/facebook-sad.svg'
+  cards = ['assets/ghost.svg',
+    'assets/angry.svg',
+    'assets/cat.svg',
+    'assets/cowboy.svg',
+    'assets/lol.svg',
+    'assets/hiss.svg',
+    'assets/monkey.svg',
+    'assets/love.svg',
+    'assets/wink.svg',
+    'assets/rollingEyes.svg',
+    'assets/cry.svg',
+    'assets/kiss.svg'
   ];
   points = 0;
   openCount = 0;
@@ -67,12 +75,13 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.generateSVGs(Array.from(Array(this.totalDeck * 2), (_, i) => i + 1));
+    this.generateSVGs(Array.from(Array(this.cards.length), (_, i) => i + 1));
     this.deckGenerator();
   }
 
 
   generateSVGs(items: number[]): void {
+    console.log(items);
     items.forEach((item, index) => {
       this.matIconRegistry.addSvgIcon(
         'img' + (index + 1),
@@ -93,7 +102,7 @@ export class AppComponent implements OnInit {
   }
 
   deckGenerator(): void {
-    const deckArray = Array.from(Array(this.totalDeck), (_, i) => i + 1);
+    const deckArray = Array.from(Array((this.rows * this.columns) / 2), (_, i) => i + 1);
     const repeat = (a, n) => n ? a.concat(repeat(a, --n)) : [];
     this.items = this.shuffle(repeat(deckArray, 2)).map(item => ({ show: true, value: item }));
     this.hideAll();
@@ -126,8 +135,14 @@ export class AppComponent implements OnInit {
         setTimeout(() => {
           this.items[this.clickedIndex].show = false;
           this.items[index].show = false;
-          if (this.points > 0) {
-            this.points--;
+          // if (this.points > 0) {
+          //   this.points--;
+          // }
+          console.log(this.failureCount);
+          if (this.failureCount <= 0) {
+            this.show();
+          } else {
+            this.failureCount--;
           }
           delete this.itemClicked;
         }, 100);
@@ -136,7 +151,7 @@ export class AppComponent implements OnInit {
   }
 
   checkCompletionandRedeck() {
-    if (this.openCount === this.totalDeck) {
+    if (this.items.every((item) => item.show === true)) {
       this.hideAll();
       delete this.clickedIndex;
       delete this.itemClicked;
@@ -147,18 +162,76 @@ export class AppComponent implements OnInit {
 
   deckGeneratorDelayed(): void {
     setTimeout(() => {
-      const deckArray = Array.from(Array(this.totalDeck), (_, i) => i + 1);
+      if (this.points >= 40) {
+        this.columns = 4;
+        this.rows = 7;
+      }
+      if (this.points >= 30) {
+        this.columns = 4;
+        this.rows = 5;
+      }
+      else if (this.points >= 20) {
+        this.columns = 4;
+        this.rows = 4;
+      }
+      else if (this.points >= 15) {
+        this.columns = 4;
+        this.rows = 3;
+      }
+      else if (this.points >= 10) {
+        this.columns = 4;
+        this.rows = 2;
+      }
+      else if (this.points >= 5) {
+        this.columns = 3;
+        this.rows = 2;
+      }
+      const deckArray = Array.from(Array((this.rows * this.columns) / 2), (_, i) => i + 1);
       const repeat = (a, n) => n ? a.concat(repeat(a, --n)) : [];
       this.items = this.shuffle(repeat(deckArray, 2)).map(item => ({ show: true, value: item }));
       this.hideAll();
-    }, 1000);
+    }, 500);
   }
+
+  async show(): Promise<any> {
+    this.buttonText = 'OK';
+    this.showModal = true;
+    this.content = this.name + ' -- You gained ' + this.points + ' points!! Yay!';
+    this.title = 'Uh oh!! You lost!';
+    // if (typeof this.lastHighScore === 'number') {
+    //   await this.getProgress(this.name);
+    //   this.checkAndSaveNewHighScore(this.winCount, this.lastHighScore);
+    // } else {
+    //   this.addNewHighscore({ username: this.name, highscore: this.winCount });
+    //   this.lastHighScore = this.winCount;
+    // }
+  }
+
+  // getProgress(name) {
+  //   this.firestore.collection('users').valueChanges({ idField: 'userId' }).subscribe(data => {
+  //     const dataElem = data.filter((dataElem: DataUser) => {
+  //       return dataElem.username == name
+  //     });
+  //     if (dataElem && dataElem[0]) {
+  //       this.userId = dataElem[0]['userId'];
+  //       this.lastHighScore = dataElem[0]['highscore'];
+  //     } else {
+  //       this.name = name;
+  //     }
+  //   });
+  // }
 
   hide(): void {
     this.showModal = false;
     this.showTopScores = false;
     if (this.buttonText === 'Start') {
       this.name = document.getElementById("name")['value'];
+    } else {
+      this.rows = 2;
+      this.columns = 2;
+      this.failureCount = 10;
+      this.points = 0;
+      this.deckGenerator();
     }
     console.log(this.name);
   }

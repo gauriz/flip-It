@@ -10,3 +10,9 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+mat-icon {
+    .no-theme {
+        fill: inherit;
+    }
+}
