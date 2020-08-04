@@ -114,38 +114,38 @@ export class AppComponent implements OnInit {
 
 
   checkClick(item, index): void {
-    if (!this.itemClicked) {
-      // firstTime
-      this.items[index].show = true;
-      this.clickedIndex = index;
-      this.itemClicked = this.items[index].value;
-    } else {
-      // second time
-      if (item.value === this.itemClicked) {
-        // checking if the new item = previously clicked item
+    if (item.show === false) {
+      if (!this.itemClicked) {
+        // firstTime
         this.items[index].show = true;
-        delete this.itemClicked;
-        this.points++;
-        this.openCount++;
-        this.checkCompletionandRedeck();
+        this.clickedIndex = index;
+        this.itemClicked = this.items[index].value;
       } else {
-        console.log('Not the same item');
-        // the second item is not previously clicked item, so hide both;
-        this.items[index].show = true;
-        setTimeout(() => {
-          this.items[this.clickedIndex].show = false;
-          this.items[index].show = false;
-          // if (this.points > 0) {
-          //   this.points--;
-          // }
-          console.log(this.failureCount);
-          if (this.failureCount <= 0) {
-            this.show();
-          } else {
-            this.failureCount--;
+        // second time
+        if (item.value === this.itemClicked) {
+          // checking if the new item = previously clicked item
+          if (index !== this.clickedIndex) {
+            this.items[index].show = true;
+            delete this.itemClicked;
+            this.points++;
+            this.openCount++;
+            this.checkCompletionandRedeck();
           }
-          delete this.itemClicked;
-        }, 100);
+        } else {
+          console.log('Not the same item');
+          // the second item is not previously clicked item, so hide both;
+          this.items[index].show = true;
+          setTimeout(() => {
+            this.items[this.clickedIndex].show = false;
+            this.items[index].show = false;
+            if (this.failureCount <= 0) {
+              this.show();
+            } else {
+              this.failureCount--;
+            }
+            delete this.itemClicked;
+          }, 100);
+        }
       }
     }
   }
@@ -162,27 +162,27 @@ export class AppComponent implements OnInit {
 
   deckGeneratorDelayed(): void {
     setTimeout(() => {
-      if (this.points >= 40) {
+      if (this.points >= 100) {
         this.columns = 4;
         this.rows = 7;
       }
-      if (this.points >= 30) {
+      if (this.points >= 90) {
         this.columns = 4;
         this.rows = 5;
       }
-      else if (this.points >= 20) {
+      else if (this.points >= 60) {
         this.columns = 4;
         this.rows = 4;
       }
-      else if (this.points >= 15) {
+      else if (this.points >= 40) {
         this.columns = 4;
         this.rows = 3;
       }
-      else if (this.points >= 10) {
+      else if (this.points >= 25) {
         this.columns = 4;
         this.rows = 2;
       }
-      else if (this.points >= 5) {
+      else if (this.points >= 10) {
         this.columns = 3;
         this.rows = 2;
       }
@@ -198,28 +198,7 @@ export class AppComponent implements OnInit {
     this.showModal = true;
     this.content = this.name + ' -- You gained ' + this.points + ' points!! Yay!';
     this.title = 'Uh oh!! You lost!';
-    // if (typeof this.lastHighScore === 'number') {
-    //   await this.getProgress(this.name);
-    //   this.checkAndSaveNewHighScore(this.winCount, this.lastHighScore);
-    // } else {
-    //   this.addNewHighscore({ username: this.name, highscore: this.winCount });
-    //   this.lastHighScore = this.winCount;
-    // }
   }
-
-  // getProgress(name) {
-  //   this.firestore.collection('users').valueChanges({ idField: 'userId' }).subscribe(data => {
-  //     const dataElem = data.filter((dataElem: DataUser) => {
-  //       return dataElem.username == name
-  //     });
-  //     if (dataElem && dataElem[0]) {
-  //       this.userId = dataElem[0]['userId'];
-  //       this.lastHighScore = dataElem[0]['highscore'];
-  //     } else {
-  //       this.name = name;
-  //     }
-  //   });
-  // }
 
   hide(): void {
     this.showModal = false;
@@ -233,7 +212,11 @@ export class AppComponent implements OnInit {
       this.points = 0;
       this.deckGenerator();
     }
-    console.log(this.name);
+  }
+
+  moreLives(): void {
+    this.showModal = false;
+    this.failureCount = 10;
   }
 
 

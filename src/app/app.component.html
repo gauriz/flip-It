@@ -33,7 +33,7 @@
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="hide()"> {{buttonText}} </button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal ">Top Scores</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal " *ngIf="this.buttonText !== 'Start'" (click)='moreLives()'>+10 More Lives</button>
             </div>
             <ul class="list-group " *ngIf='showTopScores'>
                 <li class="list-group-item flex-container " *ngFor='let user of topScores'>
