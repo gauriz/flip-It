@@ -1,0 +1,28 @@
+.flex-container {
+    display: flex;
+    background-color: #f1f1f1;
+}
+
+.flex-container>div {
+    margin: 10px;
+    text-align: center;
+}
+
+.grid-container {
+    display: grid;
+    background-color: #BA2C73 !important;
+}
+
+.grid-item {
+    text-align: center;
+    border: 2px solid #191D32;
+    height: 70px;
+}
+
+.top {
+    margin-top: 56px;
+}
+
+mat-icon {
+    margin-top: 21px;
+}

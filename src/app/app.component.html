@@ -1,0 +1,45 @@
+<nav class="navbar fixed-top navbar-dark" style="background-color: #191D32;">
+    <a class="navbar-brand" href="#!">FLIP IT </a>
+    <button class='btn btn-info '> {{points}} </button>
+</nav>
+<div class="container grid-container top" style="width: 210px;height: 140px;
+margin: auto;position: absolute; top: 0; left: 0; bottom: 0; 
+right: 0;">
+    <div class="row">
+        <div id='gridItem' *ngFor='let item of items; let index= index;' [class]="'col-' + (12/totalDeck) + ' grid-item col-xl-' + (12/totalDeck)" (click)='checkClick(item, index)'>
+            <mat-icon [svgIcon]='"img" + item.value' *ngIf='item.show' [@deckAnimation]> </mat-icon>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal" [style.display]="showModal ? 'block' : 'none'" style="position: absolute;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{ title }}</h4>
+            </div>
+
+            <div class="flex-container" *ngIf='buttonText === "Start"'>
+                <div style="flex-grow: 1"><label> Enter name </label> </div>
+                <div style="flex-grow: 1"> <input type="text" required id='name'></div>
+            </div>
+            <div class="flex-container" *ngIf='buttonText !== "Start"'>
+
+                <div style="flex-grow: 1"><label>   {{ content }} </label> <br> <label *ngIf='name != ""'> lastHighScore   </label> </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="hide()"> {{buttonText}} </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal ">Top Scores</button>
+            </div>
+            <ul class="list-group " *ngIf='showTopScores'>
+                <li class="list-group-item flex-container " *ngFor='let user of topScores'>
+                    <div style="flex-grow: 1 "> {{user.username}} : {{user.highscore}}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
