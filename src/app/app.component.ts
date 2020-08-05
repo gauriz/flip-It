@@ -83,7 +83,6 @@ export class AppComponent implements OnInit {
 
 
   generateSVGs(items: number[]): void {
-    console.log(items);
     items.forEach((item, index) => {
       this.matIconRegistry.addSvgIcon(
         'img' + (index + 1),
@@ -113,8 +112,8 @@ export class AppComponent implements OnInit {
   }
 
 
-  checkClick(item, index): void {
-    if (item.show === false) {
+  checkClick(event, item, index): void {
+    if (item.show === false && event.isTrusted) {
       if (!this.itemClicked) {
         // firstTime
         this.items[index].show = true;

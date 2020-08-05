@@ -5,7 +5,7 @@
 </nav>
 <div class="container grid-container top" [style.width]='(80 * columns) + "px"' [style.height]='(80 * rows) + "px"'>
     <div class="row">
-        <div id='gridItem' *ngFor='let item of items; let index= index;' [class]="'col-' + (12/columns) + ' grid-item col-xl-' + (12/columns)" (click)='checkClick(item, index)'>
+        <div id='gridItem' *ngFor='let item of items; let index= index;' [class]="'col-' + (12/columns) + ' grid-item col-xl-' + (12/columns)" (click)='checkClick($event, item, index)'>
             <button mat-icon-button *ngIf='item.show' [@deckAnimation] style="margin-top: 19px;"> 
                 <mat-icon [svgIcon]='"img" + item.value' class="y-icon"></mat-icon>
               </button>
@@ -36,7 +36,8 @@
                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="getTopScores()">Top Scores</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal " *ngIf="this.buttonText !== 'Start'" (click)='moreLives()'>+10</button>
             </div>
-            <ul class="list-group " *ngIf='showTopScores'>
+            <ul class="list-group " *ngIf='showTopScores' style="max-height: 200px;
+            overflow-y: scroll;">
                 <li class="list-group-item flex-container " *ngFor='let user of topScores'>
                     <div style="flex-grow: 1 "> {{user.username}} : {{user.highscore}}</div>
                 </li>
