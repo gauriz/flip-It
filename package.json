@@ -2,9 +2,9 @@
     "name": "flip-it",
     "version": "1.3.0",
     "license": "MIT",
-   "name" : "Gauri K Kumar"
-   "email" : "gauri.x3@gmail.com"
-   "url" : "https://github.com/gauriz"
+    "name": "Gauri K Kumar",
+    "email": "gauri.x3@gmail.com",
+    "url" : "https://github.com/gauriz",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
